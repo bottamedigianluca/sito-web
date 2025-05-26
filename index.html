@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- SEO: Title will be dynamically set by React Helmet or similar -->
+  <title>Bottamedi Frutta e Verdura | Freschezza Trentina, Qualità Superiore</title>
+  <!-- SEO: Meta description will be dynamically set -->
+  <meta name="description" content="Scopri la freschezza quotidiana e la qualità superiore di Bottamedi. Frutta e verdura all'ingrosso per HORECA e vendita al dettaglio a Mezzolombardo, Trentino. Tradizione e innovazione dal [ANNO NONNO].">
+  <!-- SEO: Keywords will be dynamically set -->
+  <meta name="keywords" content="frutta e verdura, mezzolombardo, trentino, ingrosso ortofrutta, dettaglio frutta verdura, Bottamedi, prodotti freschi, qualità, HORECA, ristoranti, hotel, catering, Melinda, prodotti tipici trentini, spesa online trentino, obst und gemüse, großhandel, einzelhandel, Trentino">
+  <!-- SEO: Add more meta tags as needed (author, canonical, OpenGraph, Twitter Cards) via React Helmet -->
+  <!-- SEO: hreflang tags for alternative languages will be added dynamically -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Sonsie+One&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            display: ['Sonsie One', 'cursive'], 
+          },
+          colors: {
+            'brand-green': {
+              light: '#A0D6BB', 
+              DEFAULT: '#1A7A4C', 
+              dark: '#135A38', 
+            },
+            'brand-yellow': {
+              light: '#FFFBEB',
+              DEFAULT: '#FDE047', 
+              dark: '#FBBF24',
+            },
+            'brand-orange': {
+              DEFAULT: '#F97316', 
+              dark: '#DD6B20', 
+            },
+            'brand-red': {
+              DEFAULT: '#EF4444', 
+            },
+            'brand-gray': {
+              light: '#F9FAFB', 
+              DEFAULT: '#6B7280', 
+              dark: '#1F2937',
+              extralight: '#F3F4F6', 
+            }
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.7s ease-out forwards',
+            'slide-in-bottom': 'slideInBottom 0.6s ease-out forwards',
+            'subtle-bob': 'subtleBob 3s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(25px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideInBottom: {
+              '0%': { transform: 'translateY(100%)', opacity: '0'},
+              '100%': { transform: 'translateY(0)', opacity: '1'},
+            },
+            subtleBob: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-5px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/jsx-runtime": "https://esm.sh/react@^19.1.0/jsx-runtime",
+    "react-helmet-async": "https://esm.sh/react-helmet-async@^2.0.5",
+    "gsap": "https://esm.sh/gsap@^3.13.0",
+    "gsap/ScrollTrigger": "https://esm.sh/gsap@^3.13.0/ScrollTrigger.js",
+    "gsap/ScrollToPlugin": "https://esm.sh/gsap@^3.13.0/ScrollToPlugin.js",
+    "gsap/TextPlugin": "https://esm.sh/gsap@^3.13.0/TextPlugin.js",
+    "gsap/SplitText": "https://esm.sh/gsap@^3.13.0/SplitText.js",
+    "gsap/": "https://esm.sh/gsap@^3.13.0/"
+  }
+}
+</script>
+  <style>
+    .button-ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      pointer-events: none;
+    }
+     #hero-particle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5; 
+      pointer-events: none; 
+    }
+    body { 
+        visibility: visible;
+    }
+  </style>
+</head>
+<body id="bottamedi-app" class="font-sans text-brand-gray-dark bg-white antialiased overflow-x-hidden">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html><link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>
