@@ -11,7 +11,6 @@
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react/jsx-runtime": "^19.1.0",
     "react-helmet-async": "^2.0.5",
     "gsap": "^3.13.0",
     "gsap/ScrollTrigger": "^3.13.0",
