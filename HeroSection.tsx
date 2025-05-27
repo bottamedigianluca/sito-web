@@ -238,9 +238,9 @@ const HeroSection: React.FC = () => {
           {t('hero.subtitle', 'Frutta e Verdura')}
         </h2>
         <p ref={paragraphRef} className="text-lg sm:text-xl md:text-2xl mb-8 md:mb-10 max-w-xl md:max-w-2xl mx-auto font-light">
-          {t('hero.tagline', 'L\'essenza del Trentino, dal 1950. Freschezza che ispira, qualità che conquista.')}
+          {t('hero.tagline', 'L'essenza del Trentino, dal 1950. Freschezza che ispira, qualità che conquista.')}
         </p>
-        <div ref={buttonsRef} className="space-y-3.5 md:space-y-0 md:space-x-4 flex flex-col md:flex-row justify-center items-center">
+        <div ref={buttonsRef} className="relative z-20 space-y-3.5 md:space-y-0 md:space-x-4 flex flex-col md:flex-row justify-center items-center">
           <Button onClick={() => scrollToSection('dettaglio')} variant="primary" size="lg" className="shadow-lg hover:shadow-xl">
             {t('hero.cta.banchetto', 'Scopri il Banchetto')}
           </Button>
