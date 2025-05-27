@@ -18,8 +18,13 @@ const MobileNav: React.FC<MobileNavProps> = ({ navLinks }) => {
   const triggerButtonRefs = useRef<{[key: string]: HTMLButtonElement | null}>({});
   const navRef = useRef<HTMLElement>(null);
   const lastScrollY = useRef(0);
-  const isNavVisible = useRef(false); 
+  const isNavVisible = useRef(false);
   const { t } = useLanguage();
+  
+  const scrollHistory = useRef<{y: number, time: number}[]>([]);
+  const AGITATION_THRESHOLD_COUNT = 3;
+  const AGITATION_TIME_WINDOW = 500; // ms
+  const MIN_AGITATION_DELTA = 30; // px
 
   const HIDE_THRESHOLD = 100;
   const SCROLL_DELTA_THRESHOLD = 10;
@@ -110,17 +115,62 @@ const MobileNav: React.FC<MobileNavProps> = ({ navLinks }) => {
 
       const handleScroll = () => {
         const currentScrollY = window.scrollY;
+        const currentTime = Date.now();
+
+        // Add current scroll to history
+        scrollHistory.current.push({ y: currentScrollY, time: currentTime });
+        // Keep history to a manageable size (e.g., last 10-15 points)
+        if (scrollHistory.current.length > 15) {
+          scrollHistory.current.shift();
+        }
+
         const scrollDirection = currentScrollY > lastScrollY.current ? 'down' : 'up';
         const scrollDelta = Math.abs(currentScrollY - lastScrollY.current);
-        const atTop = currentScrollY < 50;
+        const atTop = currentScrollY < 50; // Keep HIDE_THRESHOLD for this
         const atBottom = (window.innerHeight + Math.ceil(currentScrollY)) >= (document.body.offsetHeight - 50);
 
-        if (scrollDelta < SCROLL_DELTA_THRESHOLD && !atTop && !atBottom) {
-          lastScrollY.current = currentScrollY; return;
+        // Agitation detection
+        if (scrollHistory.current.length > AGITATION_THRESHOLD_COUNT) {
+            let changesInWindow = 0;
+            let lastDir = null;
+            // Iterate backwards from the most recent history point
+            for (let i = scrollHistory.current.length - 1; i > 0; i--) {
+                const currentPoint = scrollHistory.current[i];
+                const prevPoint = scrollHistory.current[i-1];
+                
+                if (currentTime - prevPoint.time > AGITATION_TIME_WINDOW) break; // Check against currentTime for the window
+
+                const segmentDelta = Math.abs(currentPoint.y - prevPoint.y);
+                if (segmentDelta < MIN_AGITATION_DELTA) continue; // Not a significant scroll segment
+
+                const segmentDir = currentPoint.y > prevPoint.y ? 'down' : 'up';
+                if (lastDir && segmentDir !== lastDir) {
+                    changesInWindow++;
+                }
+                lastDir = segmentDir;
+            }
+            if (changesInWindow >= AGITATION_THRESHOLD_COUNT -1) { // -1 because we count changes between segments
+                 if (!isNavVisible.current) showNav();
+                 lastScrollY.current = currentScrollY;
+                 scrollHistory.current = []; // Reset history after agitation
+                 return; // Agitation overrides other rules for this tick
+            }
         }
-        if (atTop || atBottom) { if (!isNavVisible.current) showNav(); }
-        else if (scrollDirection === 'down' && currentScrollY > HIDE_THRESHOLD) { if (isNavVisible.current) hideNav(); }
-        else if (scrollDirection === 'up') { if (!isNavVisible.current) showNav(); }
+        
+        // Original logic (with minor adjustments for clarity)
+        if (scrollDelta < SCROLL_DELTA_THRESHOLD && !atTop && !atBottom) {
+          lastScrollY.current = currentScrollY;
+          return;
+        }
+
+        if (atTop || atBottom) {
+          if (!isNavVisible.current) showNav();
+        } else if (scrollDirection === 'down' && currentScrollY > HIDE_THRESHOLD) {
+          if (isNavVisible.current) hideNav();
+        } else if (scrollDirection === 'up') {
+          if (!isNavVisible.current) showNav();
+        }
+        
         lastScrollY.current = currentScrollY;
       };
       window.addEventListener('scroll', handleScroll, { passive: true });
